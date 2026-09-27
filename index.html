@@ -9,8 +9,236 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0c1b33; --ink: #12243f; --blue: #1e4f9a; --cream: #f6efe4; --paper: #fffaf3;
+      --terracotta: #c45c26; --gold: #d4a017; --muted: #5c6573; --ok: #128c7e;
+      --shadow: 0 18px 50px rgba(12, 27, 51, 0.14);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Source Sans 3", system-ui, sans-serif; color: var(--ink); background: var(--cream); line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    .wrap { width: min(1160px, calc(100% - 2.4rem)); margin-inline: auto; }
+    header { position: sticky; top: 0; z-index: 40; background: rgba(246,239,228,.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(18,36,63,.08); }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: .7rem 0; gap: 1rem; }
+    .brand { display: flex; align-items: center; gap: .75rem; text-decoration: none; }
+    .brand img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .brand-text strong { font-family: Fraunces, serif; font-size: 1.12rem; }
+    .brand-text span { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    nav ul { display: flex; gap: 1.15rem; list-style: none; align-items: center; }
+    nav a { text-decoration: none; font-weight: 600; font-size: .95rem; }
+    .btn { display: inline-flex; align-items: center; gap: .45rem; background: var(--navy); color: #fff; text-decoration: none; padding: .72rem 1.15rem; border-radius: 999px; font-weight: 700; border: 0; cursor: pointer; font-size: .95rem; }
+    .btn.wa { background: var(--ok); }
+    .btn.ghost { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.35); }
+    .menu-toggle { display: none; background: none; border: 0; font-size: 1.5rem; }
+    .hero { background: radial-gradient(1200px 500px at 80% -10%, #1e4f9a 0%, var(--navy) 55%); color: #fff; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 2.5rem; align-items: center; padding: 3.6rem 0 3.2rem; }
+    .kicker { letter-spacing: .16em; text-transform: uppercase; font-size: .78rem; color: #f1d48a; font-weight: 700; margin-bottom: .7rem; }
+    h1 { font-family: Fraunces, serif; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.05; margin-bottom: 1rem; }
+    .hero p.lead { font-size: 1.12rem; max-width: 36rem; color: #e7eef8; margin-bottom: 1.5rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .7rem; }
+    .hero-art { position: relative; justify-self: end; width: min(100%, 460px); }
+    .hero-art img { width: 100%; border-radius: 18px; box-shadow: 0 30px 70px rgba(0,0,0,.35); border: 6px solid #f4e4b4; }
+    .badge { position: absolute; left: -18px; bottom: 22px; background: var(--paper); color: var(--navy); padding: .7rem .95rem; border-radius: 14px; box-shadow: var(--shadow); font-size: .86rem; max-width: 180px; }
+    .badge strong { display: block; font-family: Fraunces, serif; }
+    section { padding: 4.2rem 0; }
+    h2 { font-family: Fraunces, serif; font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin-bottom: .6rem; }
+    .section-lead { color: var(--muted); max-width: 42rem; margin-bottom: 1.8rem; }
+    .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+    .card { background: var(--paper); border-radius: 18px; overflow: hidden; box-shadow: 0 10px 28px rgba(12,27,51,.08); display: flex; flex-direction: column; }
+    .card .pic { aspect-ratio: 4/5; overflow: hidden; background: #ddd; }
+    .card .pic img { width: 100%; height: 100%; object-fit: cover; }
+    .card .body { padding: 1rem 1.05rem 1.15rem; display: flex; flex-direction: column; gap: .35rem; flex: 1; }
+    .tag { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--terracotta); font-weight: 700; }
+    .card h3 { font-family: Fraunces, serif; font-size: 1.2rem; }
+    .price { font-weight: 700; color: var(--blue); }
+    .card .body p { color: var(--muted); font-size: .92rem; flex: 1; }
+    .market { background: var(--navy); color: #f4efe6; }
+    .market .section-lead { color: #c9d3e2; }
+    .market-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 1.6rem; }
+    .photos { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+    .photos img { width: 100%; height: 170px; object-fit: cover; border-radius: 12px; }
+    .photos img.wide { grid-column: 1 / -1; height: 230px; }
+    .info-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 18px; padding: 1.4rem; }
+    .info-card h3 { font-family: Fraunces, serif; margin-bottom: .6rem; }
+    .info-card dl { display: grid; grid-template-columns: 7.2rem 1fr; gap: .45rem .6rem; }
+    .info-card dt { color: #f1d48a; font-weight: 700; font-size: .86rem; }
+    .info-card a { color: #9ec4ff; }
+    .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 2rem; align-items: center; }
+    .about-grid img { border-radius: 18px; height: 420px; width: 100%; object-fit: cover; box-shadow: var(--shadow); }
+    .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .step { background: var(--paper); border-radius: 16px; padding: 1.2rem; }
+    .num { font-family: Fraunces, serif; color: var(--blue); font-size: 1.6rem; font-weight: 700; }
+    form { display: grid; gap: .75rem; background: var(--paper); padding: 1.4rem; border-radius: 18px; box-shadow: var(--shadow); }
+    input, textarea, select { width: 100%; padding: .75rem .8rem; border-radius: 10px; border: 1px solid #d7cbb8; background: #fff; font: inherit; }
+    textarea { min-height: 120px; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+    footer { background: #081221; color: #c9d3e2; padding: 2rem 0 2.4rem; font-size: .92rem; }
+    .foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    footer a { color: #f1d48a; }
+    .float-wa { position: fixed; right: 18px; bottom: 18px; z-index: 50; background: #25d366; color: #08351c; font-weight: 800; padding: .85rem 1.05rem; border-radius: 999px; text-decoration: none; }
+    .note { font-size: .84rem; color: var(--muted); margin-top: .8rem; }
+    @media (max-width: 860px) {
+      .hero-grid, .shop-grid, .market-grid, .about-grid, .how, .contact-grid { grid-template-columns: 1fr; }
+      nav ul { display: none; }
+      nav ul.open { display: flex; flex-direction: column; position: absolute; right: 1.2rem; top: 68px; background: var(--paper); padding: 1rem; border-radius: 12px; }
+      .menu-toggle { display: block; }
+    }
+  </style>
 </head>
 <body>
-<p>See repository files after full upload.</p>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top">
+        <img src="images/logo.jpg" alt="Lucky’s blue lion logo" />
+        <span class="brand-text"><strong>Lucky’s Art & Crafts</strong><span>Handmade · Western Cape</span></span>
+      </a>
+      <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+      <nav>
+        <ul id="menu">
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#market">Market</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20saw%20your%20website%20and%20would%20like%20to%20enquire%20about%20a%20piece.">WhatsApp Lucky</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="kicker">Original work · One of a kind</p>
+          <h1>Colour, courage and a blue lion.</h1>
+          <p class="lead">Lucky’s Art & Crafts makes original paintings and handmade animal sculptures you can live with — bold, playful pieces that carry the warmth of the Camphill Village Market into your home.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#shop">Browse the collection</a>
+            <a class="btn ghost" href="#market">Next market: 4 October</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <img src="images/blue-lion.jpg" alt="Lucky’s signature blue lion painting" />
+          <div class="badge"><strong>The Blue Lion</strong>Signature painting & shop mark</div>
+        </div>
+      </div>
+    </section>
+    <section id="shop">
+      <div class="wrap">
+        <p class="kicker" style="color:var(--blue)">The collection</p>
+        <h2>Buy a piece, or commission one.</h2>
+        <p class="section-lead">Every sculpture and painting is made by hand. Stock changes with each market, so the surest way to take something home is to message Lucky on WhatsApp with the piece you love.</p>
+        <div class="shop-grid">
+          <article class="card"><div class="pic"><img src="images/blue-lion.jpg" alt="Blue lion painting"></div><div class="body"><span class="tag">Painting</span><h3>Blue Lion</h3><p>The shop’s signature — a fierce, splattered lion in cobalt and amber.</p><span class="price">Price on enquiry</span><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20am%20interested%20in%20the%20Blue%20Lion%20painting.">Enquire on WhatsApp</a></div></article>
+          <article class="card"><div class="pic"><img src="images/blue-lion-framed.jpg" alt="Framed blue lion"></div><div class="body"><span class="tag">Painting</span><h3>Blue Lion — framed</h3><p>Ready to hang. Ask about current sizes and framing.</p><span class="price">Price on enquiry</span><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20would%20like%20a%20framed%20Blue%20Lion.">Enquire on WhatsApp</a></div></article>
+          <article class="card"><div class="pic"><img src="images/guinea-fowl.jpg" alt="Guinea fowl sculpture"></div><div class="body"><span class="tag">Sculpture</span><h3>Spotted Guinea Fowl</h3><p>Recycled-metal garden bird with a blue neck, red comb and tall crest.</p><span class="price">Price on enquiry</span><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20am%20interested%20in%20the%20Spotted%20Guinea%20Fowl.">Enquire on WhatsApp</a></div></article>
+          <article class="card"><div class="pic"><img src="images/crested-duck.jpg" alt="Crested duck sculpture"></div><div class="body"><span class="tag">Sculpture</span><h3>Crested Duck</h3><p>Bright orange duck with a red crest and blue beak.</p><span class="price">Price on enquiry</span><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20am%20interested%20in%20the%20Crested%20Duck.">Enquire on WhatsApp</a></div></article>
+          <article class="card"><div class="pic"><img src="images/owl.jpg" alt="Wooden owl"></div><div class="body"><span class="tag">Sculpture</span><h3>Watchful Owl</h3><p>Hand-finished wooden owl with wide eyes.</p><span class="price">Price on enquiry</span><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20am%20interested%20in%20the%20Watchful%20Owl.">Enquire on WhatsApp</a></div></article>
+          <article class="card"><div class="pic"><img src="images/turtle.jpg" alt="Painted turtle"></div><div class="body"><span class="tag">Sculpture</span><h3>Painted Turtle</h3><p>Patterned shell, dotted legs, plenty of personality.</p><span class="price">Price on enquiry</span><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20am%20interested%20in%20the%20Painted%20Turtle.">Enquire on WhatsApp</a></div></article>
+          <article class="card"><div class="pic"><img src="images/crested-bird.jpg" alt="Sunrise bird"></div><div class="body"><span class="tag">Sculpture</span><h3>Sunrise Bird</h3><p>Teal and orange folk-art bird with a proud crest.</p><span class="price">Price on enquiry</span><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20am%20interested%20in%20the%20Sunrise%20Bird.">Enquire on WhatsApp</a></div></article>
+          <article class="card"><div class="pic"><img src="images/stall-birds.jpg" alt="The stall flock"></div><div class="body"><span class="tag">At the stall</span><h3>The flock</h3><p>The full table as it appears under the trees at Camphill.</p><span class="price">See what is in stock</span><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20please%20send%20photos%20of%20what%20is%20available%20now.">Ask for current stock</a></div></article>
+          <article class="card"><div class="pic"><img src="images/market-stall.jpg" alt="Commission work"></div><div class="body"><span class="tag">Commission</span><h3>Made just for you</h3><p>A lion cub, a family of birds, or your own colours — start with a WhatsApp idea.</p><span class="price">Quoted per piece</span><a class="btn wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20would%20like%20to%20commission%20a%20piece.">Start a commission</a></div></article>
+        </div>
+        <p class="note">Pieces shown are typical of Lucky’s style. Message for live photos before you travel or pay.</p>
+      </div>
+    </section>
+    <section id="market" class="market">
+      <div class="wrap">
+        <p class="kicker">Find Lucky in person</p>
+        <h2>Camphill Village Market</h2>
+        <p class="section-lead">Lucky keeps a stall at Camphill Village Market on the first Sunday of every month (no market in January).</p>
+        <div class="market-grid">
+          <div class="photos">
+            <img class="wide" src="images/market-crowd.jpg" alt="Camphill Village Market" />
+            <img src="images/tractor-ride.jpg" alt="Tractor ride" />
+            <img src="images/fruit.jpg" alt="Farm fruit" />
+            <img class="wide" src="images/stall-birds.jpg" alt="Lucky’s stall" />
+          </div>
+          <aside class="info-card">
+            <h3>Next market</h3>
+            <dl>
+              <dt>When</dt><dd>Sunday 4 October 2026<br />10:00 – 15:00</dd>
+              <dt>Rhythm</dt><dd>First Sunday of every month, except January</dd>
+              <dt>Where</dt><dd>Camphill Village West Coast<br />103 Klein Dassenberg Road<br />Klein Dassenberg, 7349</dd>
+              <dt>Entry</dt><dd>Free. Parking on the farm.</dd>
+              <dt>Look for</dt><dd>The table of painted birds — and the blue lion.</dd>
+            </dl>
+            <p style="margin:1rem 0 .8rem">About 40 km north of Cape Town. From the N7 towards Malmesbury, follow the Camphill Village signs.</p>
+            <a class="btn" href="https://camphill.org.za/market" target="_blank" rel="noopener">Official market page</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section id="about">
+      <div class="wrap about-grid">
+        <img src="images/blue-lion.jpg" alt="Blue lion close-up" />
+        <div>
+          <p class="kicker" style="color:var(--blue)">The maker</p>
+          <h2>Work that looks you in the eye.</h2>
+          <p class="section-lead">Lucky’s Art & Crafts grew out of a stall and a love of animals — lions, owls, turtles, guinea fowl — rendered in paint, wood and recycled metal.</p>
+          <p style="margin-bottom:1rem;color:var(--muted)">Edward Chekasondo runs the stall and the WhatsApp line. Follow the work on <a href="https://x.com/luckyartcrafts?s=11">X @LuckyArtCrafts</a>.</p>
+          <div class="how">
+            <div class="step"><div class="num">1</div><strong>Choose a piece</strong><p>Browse or ask for today’s photos.</p></div>
+            <div class="step"><div class="num">2</div><strong>Message Lucky</strong><p>WhatsApp is fastest. Email works too.</p></div>
+            <div class="step"><div class="num">3</div><strong>Collect or send</strong><p>Market collection, Cape Town meet-up, or courier.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="contact">
+      <div class="wrap">
+        <p class="kicker" style="color:var(--blue)">Say hello</p>
+        <h2>Order, commission, or just ask.</h2>
+        <div class="contact-grid">
+          <form id="enquire" onsubmit="sendEnquiry(event)">
+            <label for="name">Your name</label>
+            <input id="name" required placeholder="Full name" />
+            <label for="piece">What are you after?</label>
+            <select id="piece">
+              <option>Blue Lion painting</option>
+              <option>Spotted Guinea Fowl</option>
+              <option>Crested Duck</option>
+              <option>Watchful Owl</option>
+              <option>Painted Turtle</option>
+              <option>Sunrise Bird</option>
+              <option>Current stock photos</option>
+              <option>A commission</option>
+            </select>
+            <label for="msg">Message</label>
+            <textarea id="msg" placeholder="Size, colours, delivery area…"></textarea>
+            <button class="btn wa" type="submit">Continue on WhatsApp</button>
+            <p class="note">Opens WhatsApp with your details filled in. Nothing is stored on this site.</p>
+          </form>
+          <div>
+            <div class="step" style="margin-bottom:1rem"><strong>WhatsApp</strong><p><a href="https://wa.me/27734316576">+27 73 431 6576</a></p></div>
+            <div class="step" style="margin-bottom:1rem"><strong>Email</strong><p><a href="mailto:EdwardChekasondo@gmail.com">EdwardChekasondo@gmail.com</a></p></div>
+            <div class="step" style="margin-bottom:1rem"><strong>On X</strong><p><a href="https://x.com/luckyartcrafts?s=11">@LuckyArtCrafts</a></p></div>
+            <div class="step"><strong>In person</strong><p>Camphill Village Market, first Sunday of the month, 10:00–15:00.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap foot">
+      <p>© <span id="y"></span> Lucky’s Art & Crafts · Edward Chekasondo</p>
+      <p>Handmade in the Western Cape · <a href="https://camphill.org.za/market">Camphill Village Market</a></p>
+    </div>
+  </footer>
+  <a class="float-wa" href="https://wa.me/27734316576?text=Hi%20Lucky%2C%20I%20found%20your%20website.">WhatsApp</a>
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+    function sendEnquiry(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const piece = document.getElementById("piece").value;
+      const msg = document.getElementById("msg").value.trim();
+      const text = `Hi Lucky, my name is ${name}. I am enquiring about: ${piece}. ${msg}`;
+      window.open("https://wa.me/27734316576?text=" + encodeURIComponent(text), "_blank");
+    }
+  </script>
 </body>
 </html>
